@@ -15,24 +15,21 @@ dht22data dht_data;
 
 uint8_t dht_data_byte, dht_data_bit;
 
-int
-dht_get_temp() {
+int dht_get_temp() {
   uint16_t temp_temp;
-  while (dht_current_state != DHT_IDLE);
+  //while (dht_current_state != DHT_IDLE);
   temp_temp = (((dht_data.val.th&0x7f)<<8)+dht_data.val.tl);
   return ((-1)*((dht_data.val.th&0x80)>>7)+temp_temp);
 }
 
-int
-dht_get_rh() {
+int dht_get_rh() {
   uint16_t temp_rh;
-  while (dht_current_state != DHT_IDLE);
+  //while (dht_current_state != DHT_IDLE);
   temp_rh = (dht_data.val.hh<<8)+dht_data.val.hl;
   return temp_rh;
 }
 
-void
-dht_start_read() {
+void dht_start_read() {
   // First, low pulse of 1ms
   P2OUT &= ~BIT0;
   P2SEL &= ~BIT0;
@@ -47,8 +44,14 @@ dht_start_read() {
   dht_current_state = DHT_TRIGGERING;
 }
 
-void __attribute__((interrupt (TIMER1_A0_VECTOR)))
-timer1_a0_isr() {
+
+
+//void __attribute((__interrupt (TIMER1_A0_VECTOR)))
+//timer1_a0_isr()  
+/* Interrupção do Timer1_A */
+#pragma vector = TIMER1_A0_VECTOR
+__interrupt void timer1_a0_isr(void)
+{
   TA1CCTL0 &= ~CCIFG;
   // This handles only TA1CCR0 interrupts
   switch (dht_current_state) {
@@ -116,4 +119,6 @@ timer1_a0_isr() {
     }
     break;
   }
+P1IFG = 0x00;		      	/* Zera a flag de interrupção da porta 1 */	
+
 }

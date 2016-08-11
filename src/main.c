@@ -12,8 +12,8 @@ void uart_init() {
   UCA0BR0 = 131; // 9600 bauds
   UCA0BR1 = 6;
   UCA0CTL1 &= ~UCSWRST; // Normal mode
-	P1SEL2 |= (BIT1 + BIT2); // Set pins for USCI
-	P1SEL |= (BIT1 + BIT2);
+  P1SEL2 |= (BIT1 + BIT2); // Set pins for USCI
+  P1SEL |= (BIT1 + BIT2);
 }
 
 void uart_send(int len) {
@@ -39,6 +39,7 @@ int main() {
     int t = dht_get_temp();
     int h = dht_get_rh();
     uart_send(sprintf(txbuf, "%3d.%1d C; %3d.%1d %%RH\r\n", t/10, t%10, h/10, h%10));
+    __delay_cycles(5000000);
   }
 
   return 0;
