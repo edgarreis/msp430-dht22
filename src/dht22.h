@@ -5,13 +5,13 @@
 
 typedef union {
   struct {
-    uint8_t hh;
-    uint8_t hl;
-    uint8_t th;
-    uint8_t tl;
-    uint8_t crc;
+    uint8_t hh;   // Humidity High
+    uint8_t hl;   // Humidity Low
+    uint8_t th;   // Temp. High
+    uint8_t tl;   // Temp. Low
+    uint8_t crc;  // Cyclic redundancy check
   } val;
-  uint8_t bytes[5];
+  uint8_t bytes[5];   // Create a variable with 1 bytes
 } dht22data;
 
 void dht_start_read();
