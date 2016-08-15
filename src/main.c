@@ -39,7 +39,8 @@ int main() {
     int t = dht_get_temp();
     int h = dht_get_rh();
     uart_send(sprintf(txbuf, "%3d.%1d C; %3d.%1d %%RH\r\n", t/10, t%10, h/10, h%10));
-    __delay_cycles(5000000);
+    //  %3d.%1d C means the value has fewer characters than the field width, 000,00 C 
+    __delay_cycles(5000000);  // 0.3125 s
   }
 
   return 0;
