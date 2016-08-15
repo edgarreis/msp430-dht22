@@ -16,16 +16,16 @@ dht22data dht_data;
 uint8_t dht_data_byte, dht_data_bit;
 
 int dht_get_temp() {
-  uint16_t temp_temp;
+  uint16_t temp_temp;             // Create a variable with 2 bytes
   //while (dht_current_state != DHT_IDLE);
-  temp_temp = (((dht_data.val.th&0x7f)<<8)+dht_data.val.tl);
-  return ((-1)*((dht_data.val.th&0x80)>>7)+temp_temp);
+  temp_temp = (((dht_data.val.th&0x7f)<<8)+dht_data.val.tl);    // 0x7f = 01111111 | move th 8 bits on temp_temp | temp_temp = 0xFF(th) 0xFF(tl)
+  return ((-1)*((dht_data.val.th&0x80)>>7)+temp_temp);          // 0x80 = 10000000
 }
 
 int dht_get_rh() {
   uint16_t temp_rh;
   //while (dht_current_state != DHT_IDLE);
-  temp_rh = (dht_data.val.hh<<8)+dht_data.val.hl;
+  temp_rh = (dht_data.val.hh<<8)+dht_data.val.hl; 
   return temp_rh;
 }
 
@@ -48,7 +48,7 @@ void dht_start_read() {
 
 //void __attribute((__interrupt (TIMER1_A0_VECTOR)))
 //timer1_a0_isr()  
-/* Interrupção do Timer1_A */
+/* InterrupÃ§Ã£o do Timer1_A */
 #pragma vector = TIMER1_A0_VECTOR
 __interrupt void timer1_a0_isr(void)
 {
@@ -119,6 +119,6 @@ __interrupt void timer1_a0_isr(void)
     }
     break;
   }
-P1IFG = 0x00;		      	/* Zera a flag de interrupção da porta 1 */	
+P1IFG = 0x00;		      	/* Zera a flag de interrupÃ§Ã£o da porta 1 */	
 
 }
