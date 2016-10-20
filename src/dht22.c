@@ -16,16 +16,16 @@ dht22data dht_data;
 uint8_t dht_data_byte, dht_data_bit;
 
 int dht_get_temp() {
-  uint16_t temp_temp;             // Create a variable with 2 bytes
+  uint16_t temp_temp;
   //while (dht_current_state != DHT_IDLE);
-  temp_temp = (((dht_data.val.th&0x7f)<<8)+dht_data.val.tl);    // 0x7f = 01111111 | move th 8 bits on temp_temp | temp_temp = 0xFF(th) 0xFF(tl)
-  return ((-1)*((dht_data.val.th&0x80)>>7)+temp_temp);          // 0x80 = 10000000
+  temp_temp = (((dht_data.val.th&0x7f)<<8)+dht_data.val.tl);
+  return ((-1)*((dht_data.val.th&0x80)>>7)+temp_temp);
 }
 
 int dht_get_rh() {
   uint16_t temp_rh;
   //while (dht_current_state != DHT_IDLE);
-  temp_rh = (dht_data.val.hh<<8)+dht_data.val.hl; 
+  temp_rh = (dht_data.val.hh<<8)+dht_data.val.hl;
   return temp_rh;
 }
 
